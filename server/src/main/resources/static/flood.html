@@ -5,31 +5,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/form.css" />
+    
     <title>Flood Info</title>
   </head>
-  <body>
-    <style>
-        button {
-            display: block; margin: auto;
-        }
-    </style>
+  <body class="settings">
+    
     <script src="jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-    <div class="container">
-        <div  class="d-flex justify-content-center">
+    <div class="max-width">
+    <section class="payment turquoise">
+        <div  class="grid-7 padded m-grid-whole s-grid-whole xs-grid-whole">
             <br>
             <form id="target">
                 <h1>洪水当前情况</h1>
-                <div class="mb-3">
+                <div class="grid-whole">
                     <h3 class="form-label">起始地点</h3>
                     <br>
                     <label class="form-label">经度</label>
                     <label class="form-label">
-                        <input class="form-control" type="number" step=0.01 id="startLocationLongitude" name="startLocationLongitude">
+                    	<input class="form-control" type="number" step=0.01 id="startLocationLongitude" name="startLocationLongitude">
                     </label>
+                    
                     <label class="form-label">纬度</label>
                     <label class="form-label">
                         <input class="form-control" type="number" step=0.01 id="startLocationLatitude" name="startLocationLatitude">
@@ -48,16 +46,16 @@
                     </label>
                 </div>
                 <div class="mb-3">
-                    <h3 class="form-label">降水量</h3>
+                    <h3 class="form-label">降水量(毫米）</h3>
                     <br>
                     <label class="form-label">
                         <input class="form-control" type="number" step=0.01 id="quantity" name="quantity">
                     </label>
-                    <label class="form-label">毫米</label>
                 </div>
                 <button type="submit" class="btn btn-primary">提交</button>
               </form>
         </div>
+    </section>
     </div>
 
     <script>

@@ -4,27 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/table.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
 
     <title>Victim Info</title>
   </head>
   <body>
-    <style>
-      table,
-      table td {
-        border: 1px solid #cccccc;
-      }
-      td {
-        height: 80px;
-        width: 160px;
-        text-align: center;
-        vertical-align: middle;
-      }
-
-    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <div class="container">
         <h1>受灾者表</h1>
@@ -33,7 +19,7 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">汇报人姓名</th>
+                <th scope="col">联系人姓名</th>
                 <th scope="col">联系人电话</th>
                 <th scope="col">人数</th>
                 <th scope="col">地点</th>
@@ -62,7 +48,7 @@
                 console.log(data["victims"])
                 data["victims"].forEach(function(x, index) {
                     console.log(x)
-                    var newRowContent = '<tr><th scope="row">' + x["victimId"] + '</th>'
+                    var newRowContent = '<tr><td scope="row">' + x["victimId"] + '</td>'
                     newRowContent += '<td>' + x["reporterName"] + '</td>'
                     newRowContent += '<td>' + x["reporterPhoneNumber"] + '</td>'
                     newRowContent += '<td>' + x["numberOfPeople"] + '</td>'
