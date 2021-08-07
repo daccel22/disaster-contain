@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>User</title>
+  </head>
+  <body>
+    <style>
+    .containerCenter {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+    }
+    .btn {
+        height:150px;
+        width:150px;
+        cursor:pointer;
+    }
+    #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    </style>
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <video autoplay muted loop id="myVideo">
+        <source src="Rain.mp4" type="video/mp4">
+    </video>
+    <div class="containerCenter">
+        <button id="left" class="btn btn-primary" type="submit" onclick="changeAdim()">管理人员</button>
+        <button id="right" class="btn btn-danger" type="submit" onclick="changeUser()">受灾人员</button>
+    </div>
+    <script>
+        function changeAdim() {
+            $(document).ready(function(){
+                console.log("test")
+                $("#left").text("水灾情况表").attr("onclick", "floodTable()");
+                $("#right").text("受灾人群表").attr("onclick", "victimTable()");
+            });
+        }
+        function changeUser() {
+            $("#left").text("现在水灾地图").attr("onclick", "floodMap()");
+            $("#right").text("提交救援申请").attr("onclick", "requestHelp()");          
+        }
+        function floodTable() {
+            location.href = "floodTable.html"; 
+        }
+        function victimTable() {
+            location.href = "victimTable.html"; 
+        }
+        function floodMap() {
+            location.href = "index.html"; 
+        }
+        function requestHelp() {
+            location.href = "victim.html"; 
+        }
+    </script>
+  </body>
+</html>
