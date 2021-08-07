@@ -9,7 +9,7 @@ html{height:100%}
 body{height:100%;margin:0px;padding:0px}
 #container{height:100%}
 </style>
-  <script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=3.0&ak=vjXLi2Ip2gsST8tYG2jzzLdPpfPoStKu">
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=vjXLi2Ip2gsST8tYG2jzzLdPpfPoStKu">
   </script>
   <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js">
   </script>
@@ -18,24 +18,24 @@ body{height:100%;margin:0px;padding:0px}
 <body>
 <div id="container"></div>
 <script type="text/javascript">
-  // GL版命名空间为BMapGL
+  // GL版命名空间为BMap
   // 按住鼠标右键，修改倾斜角和角度
 
-  var map = new BMapGL.Map("container");    // 创建Map实例
-  map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+  var map = new BMap.Map("container");    // 创建Map实例
+  map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
   map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-  var scaleCtrl = new BMapGL.ScaleControl();  // 添加比例尺控件
+  var scaleCtrl = new BMap.ScaleControl();  // 添加比例尺控件
   map.addControl(scaleCtrl);
-  var zoomCtrl = new BMapGL.ZoomControl();  // 添加比例尺控件
-  map.addControl(zoomCtrl);
 
+  var traffic = new BMap.TrafficLayer();        // 创建交通流量图层实例      
+  map.addTileLayer(traffic); 
   //定义一个控件类
   function ZoomControl() {
     this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
-    this.defaultOffset = new BMapGL.Size(20, 20)
+    this.defaultOffset = new BMap.Size(20, 20)
   }
   //通过JavaScript的prototype属性继承于BMap.Control
-  ZoomControl.prototype = new BMapGL.Control();
+  ZoomControl.prototype = new BMap.Control();
 
   //自定义控件必须实现自己的initialize方法，并且将控件的DOM元素返回
   //在本方法中创建个div元素作为控件的容器，并将其添加到地图容器中
@@ -51,30 +51,93 @@ body{height:100%;margin:0px;padding:0px}
     div.style.borderRadius = "5px";
     div.style.backgroundColor = "white";
     // 绑定事件,点击一次放大两级
-    div.onclick = function(e){
+    console.log("test")
+
       $.ajax({
         type:"GET",
         url:"http://localhost:8080/victims",
         dataType:"json",
         success:function(data){
-          alert(data.victims[0].locationLongitude);
+          console.log(data)
+
           for (var i=0;i<data.victims.length;i++)
           {
-            var marker = new BMapGL.Marker(new BMapGL.Point(data.victims[i].locationLongitude, data.victims[i].locationLatitude));
+            var x = data.victims[i];
+            var newRowContent = ''
+                    newRowContent += '<label>汇报人姓名 ' + x["reporterName"] + '</label><br>'
+                    newRowContent += '<label>联系人电话 ' + x["reporterPhoneNumber"] + '</label><br>'
+                    newRowContent += '<label>人数 ' + x["numberOfPeople"] + '</label><br>'
+                    newRowContent += '<label>地点（' + x['locationLatitude'] + ',' + x['locationLongitude'] + '）</label><br>'
+                    newRowContent += '<label>受灾情况 ' + x["severity"] + '</label><br>'
+                    newRowContent += '<label>描述 ' + x["description"] + '</label><br>'
+            var marker = new BMap.Marker(new BMap.Point(data.victims[i].locationLongitude, data.victims[i].locationLatitude));
+            marker.addEventListener("click", function(){    
+              var opts = {    
+                  width : 250,     // 信息窗口宽度    
+                  height: 200,     // 信息窗口高度    
+                  title : "<h3>求助人信息</h3>"  // 信息窗口标题   
+              }    
+              var infoWindow = new BMap.InfoWindow(newRowContent, opts);  // 创建信息窗口对象   
+              console.log(marker) 
+
+              map.openInfoWindow(infoWindow, marker.GA);      // 打开信息窗口
+            }
+            );
             map.addOverlay(marker);
           }
         }
       })
-    }
-    // 添加DOM元素到地图中
-    map.getContainer().appendChild(div);
-    // 将DOM元素返回
-    return div;
-  }
-  //创建控件元素
-  var myZoomCtrl = new ZoomControl();
-  //添加到地图中
-  map.addControl(myZoomCtrl);
+      var canvasLayer = new BMap.CanvasLayer({
+        update: update
+      });
+
+    function update() {
+      var ctx = this.canvas.getContext("2d");
+      ctx.fillStyle = "rgba(50, 50, 255, 0.7)";
+      ctx.beginPath();
+      if (!ctx) {
+          return;
+      }
+
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      $.ajax({
+        type:"GET",
+        url:"http://localhost:8080/floods",
+        dataType:"json",
+        success:function(floods){
+          console.log(floods)
+          var data = [];
+          var colors = [];
+          floods["floods"].forEach(function(x, i) {
+            console.log(x)
+            data.push(new BMap.Point((x.startLocationLongitude + x.endLocationLongitude) / 2,
+            (x.startLocationLatitude + x.endLocationLatitude) / 2));
+            colors.push(x.quantity)
+            ctx.fillStyle = "rgba(58, 83, 155," + (0.002 * x.quantity) + ")";
+            console.log(ctx.fillStyle)
+            ctx.beginPath();
+            // 绘制时需要对经纬度进行转换
+            console.log(data)
+            var pixel = map.pointToPixel(data[i]);
+            
+            ctx.arc(pixel.x, pixel.y, x.quantity, 0, 2 * Math.PI);
+            ctx.fill();
+          });
+
+        }});
+
+       }
+
+        map.addOverlay(canvasLayer);
+          // 添加DOM元素到地图中
+          map.getContainer().appendChild(div);
+          // 将DOM元素返回
+          return div;
+        }
+      //创建控件元素
+      var myZoomCtrl = new ZoomControl();
+      //添加到地图中
+      map.addControl(myZoomCtrl);
 
 </script>
 </body>
