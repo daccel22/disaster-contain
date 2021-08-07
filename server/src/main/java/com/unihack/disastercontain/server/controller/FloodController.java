@@ -20,12 +20,7 @@ import io.swagger.annotations.Api;
 
 @RestController
 @Api(tags = "Flood Control")
-public class FloodController extends Throwable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class FloodController {
 	
 	@Autowired
 	private FloodService floodService;

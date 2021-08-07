@@ -2,6 +2,7 @@ package com.unihack.disastercontain.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +20,9 @@ import com.unihack.disastercontain.server.service.VictimService;
 import io.swagger.annotations.Api;
 
 @RestController
+@CrossOrigin
 @Api(tags = "Victim Control")
-public class VictimController extends Throwable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class VictimController {
 	
 	@Autowired
 	private VictimService victimService;

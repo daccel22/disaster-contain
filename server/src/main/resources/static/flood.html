@@ -80,6 +80,7 @@
                     request.setRequestHeader("Content-Type", "application/json");
                   },
                 data : data,
+                dataType: 'jsonp',
                 cache: false,  
                 url: "http://localhost:8080/floods",
                 success: function(data){
