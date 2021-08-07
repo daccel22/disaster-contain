@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.unihack.disastercontain.server.common.model.FloodResponseDTO;
 import com.unihack.disastercontain.server.model.FloodInputDTO;
 import com.unihack.disastercontain.server.service.FloodService;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import io.swagger.annotations.Api;
 
 @RestController
 @Api(tags = "Flood Control")
+@CrossOrigin
 public class FloodController {
 	
 	@Autowired
