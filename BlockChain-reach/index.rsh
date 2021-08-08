@@ -54,10 +54,13 @@ export const main = Reach.App(() => {
     object_amount, duration)
   // .pay(payment);
 
-
+  
   commit();
 
+
   Donors.publish()
+
+  assert(balance()==0)
 
   const [timeRemaining, keepGoing] = makeDeadline(duration);
 
@@ -79,8 +82,6 @@ export const main = Reach.App(() => {
         }),
         ((Donate) => Donate),
         ((Donate) => {
-
-          // Return funds to previous highest Donateder
 
           return [this, false, currentAmount + Donate];
         })

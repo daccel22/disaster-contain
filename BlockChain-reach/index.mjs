@@ -5,7 +5,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
 (async () => {
   const stdlib = await loadStdlib();
   const timeoutK = stdlib.connector === 'ALGO' ? 1 : 3;
-  const startingBalance = stdlib.parseCurrency(10);
+  const startingBalance = stdlib.parseCurrency(100);
   const fmt = (x) => stdlib.formatCurrency(x, 4);
   const getBalance = async (who) => fmt(await stdlib.balanceOf(who));
 
@@ -45,6 +45,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
   let ctc = null;
 
   if (who == 'Receiver') {
+    console.log('Hi Receiver, how could we help')
     ctc = acc.deploy(backend);
     const info = await ctc.getInfo();
     interact.getInfo = () => {
@@ -63,7 +64,7 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
   }
 
   interact.inform_DDL = async (amount) => {
-    console.log(`Deadline arrived, total amount ${amount}cfx has been received`)
+    console.log(`Deadline arrived, total amount ${fmt(amount)}cfx has been received`)
   }
 
 
@@ -98,16 +99,17 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
   // if(who=='Donors'){
 
   interact.getPayment = async () => {
-    const payment = await ask('Please enter the amount that you want to donate',
+    const before  = await getBalance(acc)
+    const payment = await ask(`Please enter the amount that you want to donate, your balance is ${before}`,
     )
-    return parseInt(payment)
+    return stdlib.parseCurrency(payment)
   }
 
   interact.getAmount = async (Amount, object_amount, intend_donate) => {
+    // console.log(Amount,object_amount,intend_donate)
     if (Amount + intend_donate <= object_amount) {
-      const Donate = stdlib.add(intend_donate, stdlib.parseCurrency(1));
-      console.log(`${who} tries to Donate ${fmt(intend_donate)} (based on all current donations: ${fmt(Amount)})`);
-      return ['Some', Donate];
+      console.log(`${who} wants to Donate ${fmt(intend_donate)}, thank you very much!)`);
+      return ['Some', intend_donate];
     } else {
       return ['None', null];
     }
@@ -119,7 +121,8 @@ import { ask, yesno, done } from '@reach-sh/stdlib/ask.mjs';
 
   if (who == 'Receiver') {
     interact.showBalance = async () => {
-      console.log(`your balance is ${getBalance(acc)}`)
+      const after = await getBalance(acc)
+      console.log(`your balance is ${after}`)
     }
   }
 
