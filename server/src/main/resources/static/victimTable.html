@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="jquery-3.6.0.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/table.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+
+    <title>Victim Info</title>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <div class="container">
+        <h1>受灾者表</h1>
+
+        <table id="dtBasicExample" class="table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">联系人姓名</th>
+                <th scope="col">联系人电话</th>
+                <th scope="col">人数</th>
+                <th scope="col">地点</th>
+                <th scope="col">受灾情况</th>
+                <th scope="col">描述</th>
+              </tr>
+            </thead>
+            <tbody id="victims">
+            </tbody>
+          </table>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+        $.ajax({   
+            type: "GET",
+            dataType: 'json',
+			      async: false,
+            url: "http://localhost:8080/victims",
+            success: function(data){
+                console.log(data)
+                console.log(data["victims"])
+                data["victims"].forEach(function(x, index) {
+                    console.log(x)
+                    var newRowContent = '<tr><td scope="row">' + x["victimId"] + '</td>'
+                    newRowContent += '<td>' + x["reporterName"] + '</td>'
+                    newRowContent += '<td>' + x["reporterPhoneNumber"] + '</td>'
+                    newRowContent += '<td>' + x["numberOfPeople"] + '</td>'
+                    newRowContent += '<td>（' + x['locationLatitude'] + ',' + x['locationLongitude'] + '）</td>'
+                    newRowContent += '<td>' + x["severity"] + '</td>'
+                    newRowContent += '<td>' + x["description"] + '</td></tr>'
+                    $("#victims").append(newRowContent);
+                })      
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+            }
+        });   
+    </script>
+  </body>
+</html>
