@@ -15,8 +15,7 @@ CREATE TABLE `floods` (
   `quantity` float DEFAULT NULL,
   `InsertTS` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;``` 
-  and 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ``` 
   ```USE disaster_contain;
 CREATE TABLE `victims` (
   `id` BigInt NOT NULL,
