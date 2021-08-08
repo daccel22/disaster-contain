@@ -5,7 +5,8 @@
   - Login into mariadb command prompt and create a new user with all privileges. ex. `CREATE USER 'user_name'@'%' IDENTIFIED BY 'password';` `GRANT ALL PRIVILEGES ON * . * TO 'user_name'@'%';`
   - In mariadb command prompt, run `CREATE DATABASE disaster_contain;`
   - (Oprional) In mariadb command prompt, run 
-  ```USE disaster_contain;
+  ```
+  USE disaster_contain;
 CREATE TABLE `floods` (
   `id` BigInt NOT NULL,
   `startLocationLongitude` float DEFAULT NULL,
@@ -16,7 +17,6 @@ CREATE TABLE `floods` (
   `InsertTS` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-and
   USE disaster_contain;
 CREATE TABLE `victims` (
   `id` BigInt NOT NULL,
