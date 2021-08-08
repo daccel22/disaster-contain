@@ -4,7 +4,8 @@
   - Install mariadb docker image and run mariadb docker container. ex. `docker run --name mariadb -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mariadb`
   - Login into mariadb command prompt and create a new user with all privileges. ex. `CREATE USER 'user_name'@'%' IDENTIFIED BY 'password';` `GRANT ALL PRIVILEGES ON * . * TO 'user_name'@'%';`
   - In mariadb command prompt, run `CREATE DATABASE disaster_contain;`
-  - (Oprional) In mariadb command prompt, run ```USE disaster_contain;
+  - (Oprional) In mariadb command prompt, run 
+  ```USE disaster_contain;
 CREATE TABLE `floods` (
   `id` BigInt NOT NULL,
   `startLocationLongitude` float DEFAULT NULL,
@@ -14,7 +15,9 @@ CREATE TABLE `floods` (
   `quantity` float DEFAULT NULL,
   `InsertTS` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;``` and ```USE disaster_contain;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;``` 
+  and 
+  ```USE disaster_contain;
 CREATE TABLE `victims` (
   `id` BigInt NOT NULL,
   `reporterName` VARCHAR(30) DEFAULT NULL,
